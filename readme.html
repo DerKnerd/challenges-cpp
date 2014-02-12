@@ -71,6 +71,10 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
+			$('#readme').load('readme.md', function () {
+				$('#readme').makeHtml();
+				PR.prettyPrint();
+			});
             $('#solutionfader').on('click', function () {
                 show();
             });
