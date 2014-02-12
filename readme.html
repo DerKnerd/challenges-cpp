@@ -45,13 +45,13 @@
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">readme.md-files
                         <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a style="cursor: pointer" data-readme="true" data-path="readme.md">Main readme.md</a></li>
+                            <li><a style="cursor: pointer" data-readme="true" data-path="/readme.md">Main readme.md</a></li>
                             <li class="divider"></li>
                             <li role="presentation" class="dropdown-header">C-Programming</li>
-                            <li><a style="cursor: pointer" data-readme="true" data-path="C-Programming/Temperature-Converter/readme.md" data-solution="C-Programming/Temperature-Converter/solution.md">Temperature Converter Challenge</a></li>
-                            <li><a style="cursor: pointer" data-readme="true" data-path="C-Programming/Line-Count/readme.md" data-solution="C-Programming/Line-Count/solution.md">Line Count Challenge</a></li>
-                            <li><a style="cursor: pointer" data-readme="true" data-path="C-Programming/File-Size/readme.md" data-solution="C-Programming/File-Size/solution.md">File Size Challenge</a></li>
-                            <li><a style="cursor: pointer" data-readme="true" data-path="C-Programming/Permutation-Challenge/readme.md" data-solution="C-Programming/Permutation-Challenge/solution.md">Permutation Challenge</a></li>
+                            <li><a style="cursor: pointer" data-readme="true" data-path="/C-Programming/Temperature-Converter/readme.md" data-solution="/C-Programming/Temperature-Converter/solution.md">Temperature Converter Challenge</a></li>
+                            <li><a style="cursor: pointer" data-readme="true" data-path="/C-Programming/Line-Count/readme.md" data-solution="/C-Programming/Line-Count/solution.md">Line Count Challenge</a></li>
+                            <li><a style="cursor: pointer" data-readme="true" data-path="/C-Programming/File-Size/readme.md" data-solution="/C-Programming/File-Size/solution.md">File Size Challenge</a></li>
+                            <li><a style="cursor: pointer" data-readme="true" data-path="/C-Programming/Permutation-Challenge/readme.md" data-solution="/C-Programming/Permutation-Challenge/solution.md">Permutation Challenge</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -71,7 +71,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-			$('#readme').load('readme.md', function () {
+			$('#readme').load('/readme.md', function () {
 				$('#readme').makeHtml();
 				PR.prettyPrint();
 			});
