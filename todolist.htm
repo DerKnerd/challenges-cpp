@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Todoliste</title>
+    <script type="text/javascript" src="jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body
+        {
+            padding-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#collapse">
+                    <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
+                        class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Todoliste</a>
+            </div>
+            <div class="collapse navbar-collapse" id="collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" data-toggle="modal" data-target="#addtodo">Neuer Eintrag</a></li>
+                    <li><a style="cursor: pointer" data-button="export">Exportieren</a></li>
+                    <li><a style="cursor: pointer" data-button="reset">Zurücksetzen</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid" id="items">
+    </div>
+    <form data-form="addtodo" id="addtodo" class="modal fade form-horizontal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;</button>
+                <h4 class="modal-title">
+                    Neues TODO</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="addticket" class="col-sm-3 control-label">
+                        Ticketnummer</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="addticket" data-text="ticket" placeholder="Ticket">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="addtime" class="col-sm-3 control-label">
+                        Aufgewendete Zeit</label>
+                    <div class="col-sm-9">
+                        <input type="time" class="form-control" id="addtime" data-text="time" placeholder="Zeit">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="addnotes" class="col-sm-3 control-label">
+                        Notizen</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" id="addnotes" data-text="notes" placeholder="Ticket"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Abbrechen</button>
+                <button type="submit" class="btn btn-primary">
+                    Speichern</button>
+            </div>
+        </div>
+    </div>
+    </form>
+    <form data-form="edittodo" id="edittodo" class="modal fade form-horizontal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;</button>
+                <h4 class="modal-title" data-title="edit">
+                </h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" data-hidden="id" />
+                <div class="form-group">
+                    <label for="edittime" class="col-sm-3 control-label">
+                        Aufgewendete Zeit</label>
+                    <div class="col-sm-9">
+                        <input type="time" class="form-control" id="edittime" data-text="time" placeholder="Zeit">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editnotes" class="col-sm-3 control-label">
+                        Notizen</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" id="editnotes" data-text="notes" placeholder="Ticket"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Abbrechen</button>
+                <button type="submit" class="btn btn-primary">
+                    Speichern</button>
+            </div>
+        </div>
+    </div>
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            draw();
+        });
+        function draw() {
+            $('#items').children().each(function () { $(this).fadeOut(1000, function () { $(this).remove(); }); });
+            for (var i = 0; i < localStorage.length; i++) {
+                var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                var visualdata =
+                '<div class="col-lg-6">'
+                + '<h2>' + item.ticket + '<h2>'
+                + '<h3>Aufwand ' + item.time + '</h3>'
+                + '<p>' + item.notes + '</p>'
+                + '<div class="btn-group">'
+                + '<button class="btn btn-primary" data-button="edit" data-id="' + localStorage.key(i) + '">Bearbeiten</button>'
+                + '<button class="btn btn-danger" data-button="remove" data-id="' + localStorage.key(i) + '">Löschen</button>'
+                + '</div>'
+                + '</div>';
+                $('#items').append(visualdata);
+            }
+            initHandler();
+        }
+        function initHandler() {
+            $('*[data-button=reset]').click(function () {
+                localStorage.clear();
+                draw();
+            });
+            $('*[data-button=edit]').click(function () {
+                var id = $(this).data('id');
+                var todo = JSON.parse(localStorage.getItem(id));
+                $('h4[data-title=edit]').text(todo.ticket);
+                var form = $('*[data-form=edittodo]').get(0);
+                $(form).find('input[data-hidden=id]').val(id);
+                $(form).find('input[data-text=time]').val(todo.time);
+                $(form).find('textarea[data-text=notes]').val(todo.notes);
+                $('#edittodo').modal('show');
+            });
+            $('*[data-button=remove]').click(function () {
+                localStorage.removeItem($(this).data('id'));
+                draw();
+            });
+            $('*[data-button=export]').click(function () {
+                var data = new Array();
+                for (var i = 0; i < localStorage.length; i++) {
+                    var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
+                    data.push(item);
+                    document.location = 'data:text/json,' + JSON.stringify(data);
+                }
+            });
+            $('*[data-form=addtodo]').submit(function () {
+                var data = {
+                    ticket: $(this).find('input[data-text=ticket]').val(),
+                    time: $(this).find('input[data-text=time]').val(),
+                    notes: $(this).find('textarea[data-text=notes]').val()
+                };
+                localStorage.setItem(new Date().getTime(), JSON.stringify(data));
+            });
+            $('*[data-form=edittodo]').submit(function () {
+                var id = $(this).find('input[data-hidden=id]').val();
+                var data = JSON.parse(localStorage.getItem(id));
+                data.time = $(this).find('input[data-text=time]').val();
+                data.notes = $(this).find('textarea[data-text=notes]').val();
+                localStorage.setItem(id, JSON.stringify(data));
+            });
+        }
+    </script>
+</body>
+</html>
