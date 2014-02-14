@@ -29,7 +29,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="Temperature Converter.cpp">
+    <ClCompile Include="Temperature-Converter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

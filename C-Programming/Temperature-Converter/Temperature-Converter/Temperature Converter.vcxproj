@@ -14,6 +14,7 @@
     <ProjectGuid>{6BD3ACC5-5435-4135-A97D-1FCC0F731301}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TemperatureConverter</RootNamespace>
+    <ProjectName>Temperature-Converter</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -82,7 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Temperature Converter.cpp" />
+    <ClCompile Include="Temperature-Converter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
