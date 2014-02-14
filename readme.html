@@ -48,7 +48,7 @@
                             <li><a style="cursor: pointer" data-readme="true" data-path="/readme.md">Main readme.md</a></li>
                             <li class="divider"></li>
                             <li role="presentation" class="dropdown-header">C-Programming</li>
-                            <li><a style="cursor: pointer" data-readme="true" data-path="/C-Programming/Temperature-Converter/readme.md" data-solution="/C-Programming/Temperature-Converter/solution.md" data-solution="/C-Programming/Temperature-Converter/mysolution.cpp">Temperature Converter Challenge</a></li>
+                            <li><a style="cursor: pointer" data-readme="true" data-path="/C-Programming/Temperature-Converter/readme.md" data-solution="/C-Programming/Temperature-Converter/solution.md" data-mysolution="/C-Programming/Temperature-Converter/Temperature-Converter/Temperature-Converter.cpp">Temperature Converter Challenge</a></li>
                             <li><a style="cursor: pointer" data-readme="true" data-path="/C-Programming/Line-Count/readme.md" data-solution="/C-Programming/Line-Count/solution.md">Line Count Challenge</a></li>
                             <li><a style="cursor: pointer" data-readme="true" data-path="/C-Programming/File-Size/readme.md" data-solution="/C-Programming/File-Size/solution.md">File Size Challenge</a></li>
                             <li><a style="cursor: pointer" data-readme="true" data-path="/C-Programming/Permutation-Challenge/readme.md" data-solution="/C-Programming/Permutation-Challenge/solution.md">Permutation Challenge</a></li>
@@ -71,7 +71,7 @@
         <div class="row">
             <article id="mysolution" style="display: none">
             </article>
-            <a style="cursor: pointer" id="A1">Show my Solution</a>
+            <a style="cursor: pointer" id="mysolutionfader">Show my Solution</a>
         </div>
     </div>
     <script type="text/javascript">
@@ -81,13 +81,17 @@
 				PR.prettyPrint();
 			});
             $('#solutionfader').on('click', function () {
-                show();
+                show('solution');
+            });
+            $('#mysolutionfader').on('click', function () {
+                show('mysolution');
             });
             $('*[data-readme=true]').each(function () {
                 $(this).on('click', function () {
                     hide();
                     var readmefile = $(this).data('path');
                     var solutionfile = $(this).data('solution');
+                    var mysolutionfile = $(this).data('mysolution');
                     document.title = $(this).text();
                     $('#readme').load(readmefile, function () {
                         $('#readme').makeHtml();
@@ -99,20 +103,36 @@
                             PR.prettyPrint();
                         });
                     }
+                    if (mysolutionfile != undefined) {
+                        $('#mysolution').load(mysolutionfile, function (responseText) {
+							responseText = '\t' + (responseText.split('\n').join('\n\t'));
+							$('#mysolution').text(responseText);
+							$('#mysolution').makeHtml();
+                            PR.prettyPrint();
+                        });
+                    } else {
+						$('#mysolution').html('<b>Come on, solve it :)</b>');
+					}
                 });
             });
         });
-        function show() {
-            $('#solution').fadeIn();
-            $('#solutionfader').off('click');
-            $('#solutionfader').on('click', function () { hide(); });
-            $('#solutionfader').text('Hide Solution');
+        function show(tag) {
+            $('#' + tag).fadeIn();
+            $('#' + tag + 'fader').off('click');
+            $('#' + tag + 'fader').on('click', function () { hide(tag); });
+			if (tag == 'solution')
+				$('#' + tag + 'fader').text('Hide Solution');
+			else
+				$('#' + tag + 'fader').text('Hide My Solution');
         }
-        function hide() {
-            $('#solution').fadeOut();
-            $('#solutionfader').off('click');
-            $('#solutionfader').on('click', function () { show(); });
-            $('#solutionfader').text('Show Solution');
+        function hide(tag) {
+            $('#' + tag).fadeOut();
+            $('#' + tag + 'fader').off('click');
+            $('#' + tag + 'fader').on('click', function () { show(tag); });
+			if (tag == 'solution')
+				$('#' + tag + 'fader').text('Show Solution');
+			else
+				$('#' + tag + 'fader').text('Show My Solution');
         }
     </script>
 </body>
